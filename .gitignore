@@ -1,0 +1,11 @@
+java-client/dockeryard-client.iml
+
+.idea/
+*.iml
+front/node_modules/
+admin/target/
+proxy/target/
+core/target/
+logs/
+*.log
+front/.idea/

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.ImageExtendMapper">
+    <sql id="columns">
+        id ,
+        image_id AS imageId,
+        ikey AS iKey,
+        ivalue AS iValue,
+        insert_by AS insertBy,
+        insert_time AS insertTime,
+        update_by AS updateBy,
+        update_time AS updateTime,
+        is_active AS isActive
+    </sql>
+    <select id="getAll" resultType="com.ppdai.dockeryard.core.po.ImageExtendEntity">
+        select
+        <include refid="columns"/>
+        from image_extend where is_active = 1
+        order by update_time desc
+    </select>
+
+    <select id="getByParam" resultType="com.ppdai.dockeryard.core.po.ImageExtendEntity"
+            parameterType="com.ppdai.dockeryard.core.dto.ImageExtendDto">
+        select
+        <include refid="columns"/>
+        from image_extend where is_active = 1
+        <if test="imageId != null">
+            and image_id = #{imageId}
+        </if>
+        <if test="iKey != null and iKey != ''">
+            and ikey = #{iKey}
+        </if>
+        order by update_time desc
+        <if test="startRecord != null and pageSize !=null">
+            limit #{startRecord},#{pageSize}
+        </if>
+    </select>
+
+    <select id="countByParam" parameterType="com.ppdai.dockeryard.core.dto.ImageExtendDto" resultType="integer">
+        select count(1)
+        from image_extend where is_active = 1
+        <if test="imageId != null">
+            and image_id = #{imageId}
+        </if>
+        <if test="iKey != null and iKey != ''">
+            and ikey = #{iKey}
+        </if>
+    </select>
+
+    <select id="getById" resultType="com.ppdai.dockeryard.core.po.ImageExtendEntity">
+        select
+        <include refid="columns"/>
+        from image_extend where is_active = 1 AND id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ppdai.dockeryard.core.po.ImageExtendEntity">
+        INSERT INTO image_extend(image_id, ikey, ivalue, insert_by, update_by)
+        VALUES(#{imageId}, #{iKey}, #{iValue}, #{insertBy}, #{updateBy})
+    </insert>
+
+    <update id="update" parameterType="com.ppdai.dockeryard.core.po.ImageExtendEntity">
+        UPDATE
+        image_extend
+        SET
+        <if test="iKey != null">ikey = #{iKey}</if>,
+        <if test="iValue != null">ivalue = #{iValue}</if>,
+        <if test="updateBy != null">update_by = #{updateBy},</if>
+        update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="delete" parameterType="com.ppdai.dockeryard.core.po.ImageExtendEntity">
+        UPDATE
+        image_extend
+        SET
+        is_active = 0, update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="deleteByImageId">
+        UPDATE
+            image_extend
+        SET
+            is_active = 0, update_time = CURRENT_TIMESTAMP, update_by = #{updateBy}
+        WHERE
+            image_id = #{imageId}
+    </update>
+
+</mapper>

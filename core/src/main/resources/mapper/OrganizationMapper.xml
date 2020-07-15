@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.OrganizationMapper">
+    <sql id="columns">
+        id ,
+        name,
+        shortcode AS shortCode,
+        insert_by AS insertBy,
+        insert_time AS insertTime,
+        update_by AS updateBy,
+        update_time AS updateTime,
+        is_active AS isActive
+    </sql>
+    <select id="getAll" resultType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        select
+        <include refid="columns"/>
+        from organization where is_active = 1
+        order by update_time desc
+    </select>
+
+    <select id="getById" resultType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        select
+        <include refid="columns"/>
+        from organization where is_active = 1 AND id = #{id}
+    </select>
+
+    <select id="getByName" resultType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        select
+        <include refid="columns"/>
+        from organization where is_active = 1 AND name = #{name}
+    </select>
+
+    <select id="getByShortCode" resultType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        select
+        <include refid="columns"/>
+        from organization where is_active = 1 AND shortcode = #{shortCode}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        INSERT INTO organization(id, name, shortcode, insert_by, update_by)
+        VALUES(#{id}, #{name}, #{shortCode}, #{insertBy}, #{updateBy})
+    </insert>
+
+    <update id="update" parameterType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        UPDATE
+        organization
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="shortCode != null">shortcode = #{shortCode},</if>
+        <if test="updateBy != null">update_by = #{updateBy},</if>
+        update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="delete" parameterType="com.ppdai.dockeryard.core.po.OrganizationEntity">
+        UPDATE
+        organization
+        SET
+        is_active = 0,update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+</mapper>

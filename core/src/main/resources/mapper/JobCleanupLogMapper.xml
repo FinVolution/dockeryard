@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.JobCleanupLogMapper">
+
+    <insert id="batchInsert">
+        INSERT INTO job_cleanup_log(`job_name`,`instance`,`repo_name`,`tag`,`status`,`app_name`,`image_id`)
+        VALUES
+        <foreach collection="jobCleanupLogs" item="log" index="index" separator=",">
+            (
+            #{log.jobName},#{log.instance},#{log.repoName},#{log.tag},#{log.status},#{log.appName},#{log.imageId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE job_cleanup_log SET `status` = #{status} WHERE image_id IN
+        <foreach collection="images" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <select id="findNeedCleanImages" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        SELECT image_id as id ,app_name appName,tag ,repo_name repoName,is_active isActive FROM job_cleanup_log
+        WHERE app_name=#{appName} and `status` = 'PENDING'
+    </select>
+
+</mapper>

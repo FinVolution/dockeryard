@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.EventLogMapper">
+
+    <sql id="columns">
+        id,
+        event_name AS eventName,
+        event_addition AS eventAddition,
+        option_type AS optionType,
+        operator,
+        operate_time AS operateTime
+    </sql>
+
+    <select id="getByParam" resultType="com.ppdai.dockeryard.core.po.EventLogEntity"
+            parameterType="com.ppdai.dockeryard.core.dto.EventLogDto">
+        select
+        <include refid="columns"/>
+        from event_log
+        <where>
+            <if test="eventName != null and eventName != ''"> and event_name like "%"#{eventName}"%" </if>
+            <if test="eventAddition != null and eventAddition != ''"> and event_addition like "%"#{eventAddition}"%" </if>
+            <if test="optionType != null and optionType != ''"> and option_type like "%"#{optionType}"%" </if>
+            <if test="operator != null and operator != ''">and operator like "%"#{operator}"%" </if>
+            <if test="startDateTime != null"> and operate_time >= #{startDateTime} </if>
+            <if test="endDateTime != null"> and operate_time &lt;= #{endDateTime} </if>
+        </where>
+        order by operate_time desc
+        <if test="startRecord != null and pageSize !=null">
+            limit #{startRecord},#{pageSize}
+        </if>
+    </select>
+
+    <select id="countByParam" parameterType="com.ppdai.dockeryard.core.dto.EventLogDto" resultType="integer">
+        select count(1)
+        from event_log
+        <where>
+            <if test="eventName != null and eventName != ''"> and event_name like "%"#{eventName}"%" </if>
+            <if test="eventAddition != null and eventAddition != ''"> and event_addition like "%"#{eventAddition}"%" </if>
+            <if test="optionType != null and optionType != ''"> and option_type like "%"#{optionType}"%" </if>
+            <if test="operator != null and operator != ''">and operator like "%"#{operator}"%" </if>
+            <if test="startDateTime != null"> and operate_time >= #{startDateTime} </if>
+            <if test="endDateTime != null"> and operate_time &lt;= #{endDateTime} </if>
+        </where>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ppdai.dockeryard.core.po.EventLogEntity">
+        INSERT INTO event_log (event_name,event_addition,option_type,operator,operate_time)
+        VALUES (#{eventName},#{eventAddition},#{optionType},#{operator},CURRENT_TIMESTAMP)
+    </insert>
+
+</mapper>

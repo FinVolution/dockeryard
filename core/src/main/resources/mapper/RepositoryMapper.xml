@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.RepositoryMapper">
+    <sql id="columns">
+        id ,
+        name,
+        org_id AS orgId,
+        org_name AS orgName,
+        description ,
+        star_count AS starCount,
+        download_count AS downloadCount,
+        insert_by AS insertBy,
+        insert_time AS insertTime,
+        update_by AS updateBy,
+        update_time AS updateTime,
+        is_active AS isActive
+    </sql>
+    <select id="getAll" resultType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        select
+        <include refid="columns"/>
+        from repository where is_active = 1
+        order by update_time desc
+    </select>
+
+
+    <select id="getByParam" resultType="com.ppdai.dockeryard.core.po.RepositoryEntity"
+            parameterType="com.ppdai.dockeryard.core.dto.RepositoryDto">
+        select
+        <include refid="columns"/>
+        from repository where is_active = 1
+        <if test="name != null and name != ''">
+            and name like "%"#{name}"%"
+        </if>
+        <if test="orgId != null">
+            and org_id = #{orgId}
+        </if>
+        <if test="orgName != null and orgName != ''">
+            and org_name = #{orgName}
+        </if>
+        order by update_time desc
+        <if test="startRecord != null and pageSize !=null">
+            limit #{startRecord},#{pageSize}
+        </if>
+
+    </select>
+
+    <select id="countByParam" parameterType="com.ppdai.dockeryard.core.dto.RepositoryDto" resultType="integer">
+        select count(1)
+        from repository where is_active = 1
+        <if test="name != null and name != ''">
+            and name like "%"#{name}"%"
+        </if>
+        <if test="orgId != null">
+            and org_id = #{orgId}
+        </if>
+        <if test="orgName != null and orgName != ''">
+            and org_name = #{orgName}
+        </if>
+    </select>
+
+    <select id="getById" resultType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        select
+        <include refid="columns"/>
+        from repository where is_active = 1 AND id = #{id}
+    </select>
+
+    <select id="getByName" resultType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        select
+        <include refid="columns"/>
+        from repository where is_active = 1 AND name = #{name}
+    </select>
+
+    <select id="getByOrg" resultType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        select
+        <include refid="columns"/>
+        from repository where is_active = 1
+        <if test="orgId != null">
+            and org_id = #{orgId}
+        </if>
+    </select>
+
+    <select id="getByOrgName" resultType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        select
+        <include refid="columns"/>
+        from repository where is_active = 1
+        <if test="orgName != null">
+            and org_name = #{orgName}
+        </if>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        INSERT INTO repository(name, org_id, org_name, description, insert_by, update_by)
+        VALUES(#{name}, #{orgId}, #{orgName}, #{description}, #{insertBy}, #{updateBy})
+    </insert>
+
+    <update id="update" parameterType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        UPDATE
+        repository
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="orgId != null">org_id = #{orgId},</if>
+        <if test="orgName != null">org_name = #{orgName},</if>
+        <if test="starCount != null">star_count = #{starCount},</if>
+        <if test="downloadCount != null">download_count = #{downloadCount},</if>
+        description = #{description},update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="delete" parameterType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        UPDATE
+        repository
+        SET
+        is_active = 0,update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="addToDownloadCount" parameterType="com.ppdai.dockeryard.core.po.RepositoryEntity">
+        UPDATE
+        repository
+        SET
+        download_count = download_count + 1
+        WHERE
+        id = #{id}
+    </update>
+</mapper>

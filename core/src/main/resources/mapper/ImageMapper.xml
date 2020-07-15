@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.ImageMapper">
+    <sql id="columns">
+        id,
+        guid,
+        repo_name AS repoName,
+        app_name AS appName,
+        tag,
+        repo_id AS repoId,
+        org_id AS orgId,
+        org_name AS orgName,
+        insert_by AS insertBy,
+        insert_time AS insertTime,
+        update_by AS updateBy,
+        update_time AS updateTime,
+        is_active AS isActive
+    </sql>
+
+    <select id="getAll" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        select
+        <include refid="columns"/>
+        from image where is_active = 1
+        order by update_time desc
+    </select>
+
+    <select id="getByParam" resultType="com.ppdai.dockeryard.core.po.ImageEntity"
+            parameterType="com.ppdai.dockeryard.core.dto.ImageDto">
+        select
+        <include refid="columns"/>
+        from image where is_active = 1
+        <if test="repoId != null">
+            and repo_id = #{repoId}
+        </if>
+        <if test="repoName != null and repoName != ''">
+            and repo_name = #{repoName}
+        </if>
+        <if test="orgId != null">
+            and org_id = #{orgId}
+        </if>
+        <if test="orgName != null and orgName !=''">
+            and org_name = #{orgName}
+        </if>
+        <if test="appName != null and appName !=''">
+            and app_name = #{appName}
+        </if>
+        <if test="tag != null and tag != ''">
+            and tag = #{tag}
+        </if>
+        order by update_time desc
+        <if test="startRecord != null and pageSize !=null">
+            limit #{startRecord},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getByParamAttachEnv" resultType="com.ppdai.dockeryard.core.po.ImageEntity"
+            parameterType="com.ppdai.dockeryard.core.dto.ImageDto">
+        SELECT
+        i.id,
+        i.guid,
+        i.repo_name AS repoName,
+        i.app_name AS appName,
+        i.tag,
+        i.repo_id AS repoId,
+        i.org_id AS orgId,
+        i.org_name AS orgName,
+        i.insert_by AS insertBy,
+        i.insert_time AS insertTime,
+        i.update_by AS updateBy,
+        i.update_time AS updateTime,
+        i.is_active AS isActive
+        from image i INNER JOIN image_extend ie on i.id = ie.image_id
+        WHERE i.is_active = 1
+        <if test="repoId != null">
+            and i.repo_id = #{repoId}
+        </if>
+        <if test="repoName != null and repoName != ''">
+            and i.repo_name = #{repoName}
+        </if>
+        <if test="orgId != null">
+            and i.org_id = #{orgId}
+        </if>
+        <if test="orgName != null and orgName !=''">
+            and i.org_name = #{orgName}
+        </if>
+        <if test="appName != null and appName !=''">
+            and i.app_name = #{appName}
+        </if>
+        <if test="tag != null and tag != ''">
+            and i.tag = #{tag}
+        </if>
+        <if test="iKey != null and iKey != ''">
+            and ie.ikey = #{iKey} and ie.ivalue = 'pass'
+        </if>
+        order by i.update_time desc
+        <if test="startRecord != null and pageSize !=null">
+            limit #{startRecord},#{pageSize}
+        </if>
+    </select>
+
+
+    <select id="countByParam" parameterType="com.ppdai.dockeryard.core.dto.ImageDto" resultType="integer">
+        select count(1)
+        from image where is_active = 1
+        <if test="repoId != null">
+            and repo_id = #{repoId}
+        </if>
+        <if test="repoName != null and repoName != ''">
+            and repo_name = #{repoName}
+        </if>
+        <if test="orgId != null">
+            and org_id = #{orgId}
+        </if>
+        <if test="orgName != null and orgName !=''">
+            and org_name = #{orgName}
+        </if>
+        <if test="appName != null and appName !=''">
+            and app_name = #{appName}
+        </if>
+        <if test="tag != null and tag != ''">
+            and tag = #{tag}
+        </if>
+    </select>
+
+    <select id="countByParamAttachEnv" parameterType="com.ppdai.dockeryard.core.dto.ImageDto" resultType="integer">
+        select count(1)
+        from image i INNER JOIN image_extend ie on i.id = ie.image_id
+        WHERE i.is_active = 1
+        <if test="repoId != null">
+            and i.repo_id = #{repoId}
+        </if>
+        <if test="repoName != null and repoName != ''">
+            and i.repo_name = #{repoName}
+        </if>
+        <if test="orgId != null">
+            and i.org_id = #{orgId}
+        </if>
+        <if test="orgName != null and orgName !=''">
+            and i.org_name = #{orgName}
+        </if>
+        <if test="appName != null and appName !=''">
+            and i.app_name = #{appName}
+        </if>
+        <if test="tag != null and tag != ''">
+            and i.tag = #{tag}
+        </if>
+        <if test="iKey != null and iKey != ''">
+            and ie.ikey = #{iKey} and ie.ivalue = 'pass'
+        </if>
+    </select>
+
+    <select id="getById" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        select
+        <include refid="columns"/>
+        from image where is_active = 1 AND id = #{id}
+    </select>
+
+    <select id="getByAppName" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        select
+        <include refid="columns"/>
+        from image where is_active = 1 AND app_name = #{appName}
+        order by update_time desc;
+    </select>
+
+    <select id="countImageByAppAndTime" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM (SELECT * FROM image WHERE app_name=#{appName} AND insert_time >= #{beforeMonthFormat} and is_active = 1 GROUP BY tag) i
+    </select>
+
+    <select id="findNeedMarkAllImages" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM image WHERE is_active = TRUE and app_name=#{appName} AND id NOT IN
+        <choose>
+            <when test="ids != null and ids.size == 0">
+                ("")
+            </when>
+            <otherwise>
+                <foreach collection="ids" index="index" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </otherwise>
+        </choose>
+        ORDER BY insert_time DESC LIMIT #{length},10000
+    </select>
+
+    <select id="beforeImagesInertTime" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM image WHERE is_active = 1 AND app_name=#{appName} AND insert_time &lt; #{time} ORDER BY insert_time
+        DESC
+    </select>
+
+    <select id="findImageByAppAndTag" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM image
+        WHERE repo_name=#{repository} and tag=#{tag} and is_active = 1
+    </select>
+
+    <select id="findAllApps" resultType="com.ppdai.dockeryard.core.po.ImageEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM image
+        group by app_name
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.ppdai.dockeryard.core.po.ImageEntity">
+        INSERT INTO image(guid, repo_name, app_name, tag, repo_id, org_id, org_name, insert_by, update_by)
+        VALUES(#{guid}, #{repoName}, #{appName}, #{tag}, #{repoId}, #{orgId}, #{orgName}, #{insertBy}, #{updateBy})
+    </insert>
+
+    <update id="update" parameterType="com.ppdai.dockeryard.core.po.ImageEntity">
+        UPDATE
+        image
+        SET
+        <if test="updateBy != null">update_by = #{updateBy},</if>
+        update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE
+        image
+        SET
+        is_active = 0,update_time = CURRENT_TIMESTAMP, update_by = #{updateBy}
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="batchDelete" parameterType="java.util.Collection">
+        UPDATE image SET is_active = FALSE WHERE id IN
+        <foreach collection="images" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+</mapper>

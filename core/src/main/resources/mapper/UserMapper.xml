@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppdai.dockeryard.core.mapper.UserMapper">
+    <sql id="columns">
+        id ,
+        name,
+        role,
+        org_id AS orgId,
+        org_name AS orgName,
+        real_name AS realName,
+        email,
+        work_number AS workNumber,
+        department,
+        insert_by AS insertBy,
+        insert_time AS insertTime,
+        update_by AS updateBy,
+        update_time AS updateTime,
+        is_active AS isActive
+    </sql>
+    <select id="getAll" resultType="com.ppdai.dockeryard.core.po.UserEntity">
+        select
+        <include refid="columns"/>
+        from user where is_active = 1
+        order by update_time desc
+    </select>
+
+    <select id="getByParam" resultType="com.ppdai.dockeryard.core.po.UserEntity" parameterType="com.ppdai.dockeryard.core.dto.UserDto">
+        select
+        <include refid="columns"/>
+        from user where is_active = 1
+        <if test="name != null and name != ''"> and name = #{name}</if>
+        <if test="realName != null and realName != ''"> and real_name = #{realName}</if>
+        <if test="orgId != null"> and org_id = #{orgId}</if>
+        <if test="workNumber != null"> and work_number = #{workNumber} </if>
+        order by update_time desc
+        <if test="startRecord != null and pageSize !=null">
+            limit #{startRecord},#{pageSize}
+        </if>
+    </select>
+
+    <select id="countByParam" parameterType="com.ppdai.dockeryard.core.dto.UserDto" resultType="integer">
+        select count(1)
+        from user where is_active = 1
+        <if test="name != null and name != ''"> and name = #{name}</if>
+        <if test="realName != null and realName != ''"> and real_name = #{realName}</if>
+        <if test="orgId != null"> and org_id = #{orgId}</if>
+        <if test="workNumber != null"> and work_number = #{workNumber} </if>
+    </select>
+
+    <select id="getById" resultType="com.ppdai.dockeryard.core.po.UserEntity">
+        select
+        <include refid="columns"/>
+        from user where is_active = 1 AND id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ppdai.dockeryard.core.po.UserEntity">
+        INSERT INTO user(id, name, role, org_id, org_name, real_name, email, work_number, department, insert_by, update_by)
+        VALUES(#{id}, #{name}, #{role}, #{orgId}, #{orgName}, #{realName}, #{email}, #{workNumber}, #{department}, #{insertBy}, #{updateBy})
+    </insert>
+
+    <update id="update" parameterType="com.ppdai.dockeryard.core.po.UserEntity">
+        UPDATE
+        user
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="role != null">role = #{role},</if>
+        <if test="orgId != null">org_id = #{orgId}</if>
+        <if test="orgName != null">org_name = #{orgName},</if>
+        <if test="realName != null">real_name = #{realName},</if>
+        <if test="email != null">email = #{email},</if>
+        <if test="workNumber != null">work_number = #{workNumber}</if>
+        <if test="department != null">department = #{department},</if>
+        <if test="updateBy != null">update_by = #{updateBy},</if>
+        update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="delete" parameterType="com.ppdai.dockeryard.core.po.UserEntity">
+        UPDATE
+        user
+        SET
+        is_active = 0,update_time = CURRENT_TIMESTAMP
+        WHERE
+        id = #{id}
+    </update>
+</mapper>
