@@ -1,4 +1,4 @@
-#Dockeryard
+# Dockeryard
 ## 一：简介
 dockeryard是容器云平台的镜像管理系统，实现了镜像的审计，清理等功能。
 架构图：
