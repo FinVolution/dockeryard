@@ -1,13 +1,13 @@
 package com.ppdai.dockeryard.admin.api;
 
 import com.ppdai.dockeryard.core.po.ImageEntity;
-import org.springframework.cloud.netflix.feign.FeignClient;
+//import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Set;
 
-@FeignClient(name = "starGate",url = "${stargate.url}")
+//@FeignClient(name = "starGate",url = "${stargate.url}")
 public interface StarGateFeignClient {
 
     @RequestMapping("/api/cloud/image/using-images")
