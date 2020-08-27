@@ -1,24 +1,24 @@
 <template>
     <div class="header">
         <div class="title" @click="returnHome"><i class="el-icon-star-off logo"></i>Docker-Yard</div>
-        <div class="user-info">
-            <el-dropdown @command="handleCommand">
-                <span class="el-dropdown-link">
-                    <img v-if="username != null" class="user-logo" src="../../assets/img/dog.jpg">
-                    {{(username != null) ? username : "您好，请登录"}}
-                </span>
-                <el-dropdown-menu slot="dropdown" class="dropdown-menu">
-                    <el-dropdown-item command="logout" v-if='isLogin'>退出</el-dropdown-item>
-                    <el-dropdown-item command="login" v-else>登录</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-            <div v-if="isPromptExpire" class="expire-prompt">
-                <div>您的当前登录会话已过期，请重新登录。</div>
-                <div>
-                    <el-button type="primary" @click="login">重新登录</el-button>
-                </div>
-            </div>
-        </div>
+<!--        <div class="user-info">-->
+<!--            <el-dropdown @command="handleCommand">-->
+<!--                <span class="el-dropdown-link">-->
+<!--                    <img v-if="username != null" class="user-logo" src="../../assets/img/dog.jpg">-->
+<!--                    {{(username != null) ? username : "您好，请登录"}}-->
+<!--                </span>-->
+<!--                <el-dropdown-menu slot="dropdown" class="dropdown-menu">-->
+<!--                    <el-dropdown-item command="logout" v-if='isLogin'>退出</el-dropdown-item>-->
+<!--                    <el-dropdown-item command="login" v-else>登录</el-dropdown-item>-->
+<!--                </el-dropdown-menu>-->
+<!--            </el-dropdown>-->
+<!--            <div v-if="isPromptExpire" class="expire-prompt">-->
+<!--                <div>您的当前登录会话已过期，请重新登录。</div>-->
+<!--                <div>-->
+<!--                    <el-button type="primary" @click="login">重新登录</el-button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
     </div>
 </template>
@@ -39,7 +39,8 @@
                 isExpired: 'getExpireState',
             }),
             isPromptExpire: function () {
-                return this.isExpired && this.isLogin;
+                // return this.isExpired && this.isLogin;
+                return true;
             }
         },
 //        watch: {
@@ -49,7 +50,7 @@
 //            }
 //        },
         methods: {
-            ...mapActions(['logout', 'checkExpired', 'refreshToken']),
+            ...mapActions(['logout', 'checkExpired']),
             handleCommand(command) {
                 if (command == 'logout') {
                     this.logout();
@@ -78,7 +79,7 @@
             },
             refreshToken: function () {
                 console.log('refreshToken')
-                this.$store.dispatch('refreshToken');
+                // this.$store.dispatch('refreshToken');
             },
             logout(){
                 // 登出时注销并清空所有token

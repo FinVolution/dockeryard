@@ -1,8 +1,5 @@
 package com.ppdai.dockeryard.admin.controller;
 
-import com.ppdai.atlas.api.OrgControllerApiClient;
-import com.ppdai.atlas.model.OrgDto;
-import com.ppdai.atlas.model.ResponseListOrgDto;
 import com.ppdai.dockeryard.admin.service.OrganizationService;
 import com.ppdai.dockeryard.core.po.OrganizationEntity;
 import io.swagger.annotations.ApiOperation;
@@ -19,9 +16,6 @@ public class OrganizationController {
 
     @Autowired
     private OrganizationService organizationService;
-
-    @Autowired
-    private OrgControllerApiClient orgControllerApiClient;
 
 
     @ApiOperation(value = "获取所有Organization列表")
@@ -57,16 +51,6 @@ public class OrganizationController {
     public ResponseEntity<String> deleteOrganization(@PathVariable Long id) {
         organizationService.delete(id);
         return new ResponseEntity<>("delete success", HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "从atlas同步Organization")
-    @RequestMapping(value = "/orgs/sync", method = RequestMethod.GET)
-    public ResponseEntity<String> syncOrganizations() {
-        ResponseEntity<ResponseListOrgDto> remoteResponse = orgControllerApiClient.getAllOrgsUsingGET();
-        ResponseListOrgDto remoteList = remoteResponse.getBody();
-        List<OrgDto> remoteOrgList = remoteList.getDetail();
-        organizationService.syncOrganizations(remoteOrgList);
-        return new ResponseEntity<>("sync organizations success", HttpStatus.OK);
     }
 
 }

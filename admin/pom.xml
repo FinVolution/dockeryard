@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.ppdai.auth</groupId>
             <artifactId>pauth-spring-support</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>com.ppdai.atlas</groupId>
             <artifactId>atlas-client</artifactId>
-            <version>2.2</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -69,6 +69,18 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Camden.SR5</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -82,6 +94,28 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <groupId>com.ppdai.atlas</groupId>
+                    <artifactId>atlas-client</artifactId>
+                    <version>1.0.0</version>
+                    <packaging>jar</packaging>
+                    <file>${basedir}/dependencies/atlas-client-1.0.0.jar</file>
+                    <pomFile>${basedir}/dependencies/atlas-client-1.0.0.pom</pomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-jar-lib</id>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>

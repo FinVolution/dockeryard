@@ -6,7 +6,7 @@ import lastVisitedUtil from '../../utils/lastVisitedUtil'
 
 // initial state
 const state = {
-    login: null,
+    login: true,
     expired: null,
     usermail: null,
     username: null,
@@ -96,19 +96,19 @@ const actions = {
      * @param data 附带应用信息的数据对象，data格式为 {code: x}，其中x为用户的授权码
      */
     fetchToken({commit, dispatch}, data) {
-        api.authService.fetchToken(data).then(function (resp) {
-            if (resp.data != null && resp.data.code != null && resp.data.code >=0) {
-                jwtTokenUtil.saveAccess(resp.data.details.accessToken);
-                jwtTokenUtil.saveRefresh(resp.data.details.refreshToken);
-                dispatch("readLoginInfo");
-            } else {
-                commit(types.REFRESH_INVALID_LOGIN_STATE, true);
-                dispatch("displayPromptByResponseMsg", resp);
-            }
-        }.bind(this)).catch(function (err) {
-            commit(types.REFRESH_INVALID_LOGIN_STATE, true);
-            dispatch("displayPromptByResponseMsg", err.response);
-        }.bind(this));
+        // api.authService.fetchToken(data).then(function (resp) {
+        //     if (resp.data != null && resp.data.code != null && resp.data.code >=0) {
+        //         jwtTokenUtil.saveAccess(resp.data.details.accessToken);
+        //         jwtTokenUtil.saveRefresh(resp.data.details.refreshToken);
+        //         dispatch("readLoginInfo");
+        //     } else {
+        //         commit(types.REFRESH_INVALID_LOGIN_STATE, true);
+        //         dispatch("displayPromptByResponseMsg", resp);
+        //     }
+        // }.bind(this)).catch(function (err) {
+        //     commit(types.REFRESH_INVALID_LOGIN_STATE, true);
+        //     dispatch("displayPromptByResponseMsg", err.response);
+        // }.bind(this));
 
     },
 
@@ -118,19 +118,19 @@ const actions = {
      * @param dispatch  store action分发者
      */
     refreshToken({commit, dispatch}) {
-        let refreshToken = jwtTokenUtil.readRefresh();
-        if (refreshToken != null) {
-            api.authService.refreshToken({'refresh_token': refreshToken}).then(function (resp) {
-                if (resp.data != null && resp.data.code != null && resp.data.code >= 0) {
-                    jwtTokenUtil.saveAccess(resp.data.details.accessToken);
-                    dispatch("readLoginInfo");
-                } else {
-                    dispatch("displayPromptByResponseMsg", resp);
-                }
-            }.bind(this)).catch(function (err) {
-                dispatch("displayPromptByResponseMsg", err.response);
-            }.bind(this));
-        }
+        // let refreshToken = jwtTokenUtil.readRefresh();
+        // if (refreshToken != null) {
+        //     api.authService.refreshToken({'refresh_token': refreshToken}).then(function (resp) {
+        //         if (resp.data != null && resp.data.code != null && resp.data.code >= 0) {
+        //             jwtTokenUtil.saveAccess(resp.data.details.accessToken);
+        //             dispatch("readLoginInfo");
+        //         } else {
+        //             dispatch("displayPromptByResponseMsg", resp);
+        //         }
+        //     }.bind(this)).catch(function (err) {
+        //         dispatch("displayPromptByResponseMsg", err.response);
+        //     }.bind(this));
+        // }
 
     },
 

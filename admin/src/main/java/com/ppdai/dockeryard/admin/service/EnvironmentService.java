@@ -1,6 +1,5 @@
 package com.ppdai.dockeryard.admin.service;
 
-import com.ppdai.atlas.model.EnvDto;
 import com.ppdai.dockeryard.core.po.EnvironmentEntity;
 
 import java.util.List;
@@ -65,11 +64,4 @@ public interface EnvironmentService {
      * @param environment
      */
     void insert(EnvironmentEntity environment);
-
-    /**
-     * 从远端同步数据到本地数据库
-     *
-     * @param remoteEnvList
-     */
-    void SyncAllEnv(List<EnvDto> remoteEnvList);
 }
