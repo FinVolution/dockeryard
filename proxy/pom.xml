@@ -113,7 +113,7 @@
                         </goals>
                         <phase>validate</phase>
                         <configuration>
-                            <groupId>com.ppdai.pauth</groupId>
+                            <groupId>com.ppdai.auth</groupId>
                             <artifactId>pauth-java-client</artifactId>
                             <version>1.2.8</version>
                             <packaging>jar</packaging>

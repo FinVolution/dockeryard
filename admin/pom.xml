@@ -112,6 +112,7 @@
                             <artifactId>atlas-client</artifactId>
                             <version>2.2</version>
                             <packaging>jar</packaging>
+                            <generatePom>false</generatePom>
                             <file>${basedir}/dependencies/atlas-client-2.2.jar</file>
                             <pomFile>${basedir}/dependencies/atlas-client-2.2.pom</pomFile>
                         </configuration>
@@ -123,10 +124,11 @@
                         </goals>
                         <phase>validate</phase>
                         <configuration>
-                            <groupId>com.ppdai.pauth</groupId>
+                            <groupId>com.ppdai.auth</groupId>
                             <artifactId>pauth-spring-support</artifactId>
                             <version>1.2.8</version>
                             <packaging>jar</packaging>
+                            <generatePom>false</generatePom>
                             <file>${basedir}/dependencies/pauth-spring-support-1.2.8.jar</file>
                             <pomFile>${basedir}/dependencies/pauth-spring-support-1.2.8.pom</pomFile>
                         </configuration>
