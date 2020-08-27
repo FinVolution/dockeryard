@@ -68,18 +68,77 @@ mvn clean package -DskipTests=true
 ```xml
 java -jar proxy-0.0.1-SNAPSHOT.jar
 ```
+
 ### 5 docker registry安装部署
-1.拉取相关镜像
-```xml
+
+#### 1.安装docker
+
+省略
+
+#### 2.拉取镜像
+
+```shell
 docker pull registry
 ```
-2.启动容器，并关联相关配置config.yml
-config.yml为本地的config文件，registry启动的时候需要指定，配置内容请参照（https://docs.docker.com/registry/configuration/）
-```shell script
-docker run -d -p 5000:5000 --restart=always --name registry \
-             -v /config.yml:/etc/docker/registry/config.yml \
-             registry:2
+
+#### 3.运行(并指定5000端口)
+
+```shell
+mkdir /Users/chenlang/docker/registry
+docker run -d -p 5000:5000 -v /Users/chenlang/docker/registry:/var/lib/registry registry
 ```
-注意：proxy服务需要和regstry安装在同一服务器上
+
+#### 4.更改配置
+
+因为后续我们需要对上传到仓库的进行审计和其它操作，需要将请求经过proxy服务转发，所以需要修改配置daemon.json，作者使用的mac，可以直接修改vim ~/.docker/daemon.json 
+
+```shell
+vim ~/.docker/daemon.json 
+```
+
+内容：
+
+```json
+{
+  "insecure-registries" : [
+    "localhost:5050"
+  ],
+  "debug" : true,
+  "experimental" : false,
+  "registry-mirrors" : [
+    "http://${ip}:5050"
+  ]
+}
+```
+
+```修改完后重启docker，并重启docker registry```
+
+
+
+#### 5.打包镜像并推送
+
+##### 一：运行proxy并设置好相关配置
+
+```properties
+# 拦截的端口好
+proxyPort=5050
+
+#docker registry
+dockerRegistryHost=http://${ip}
+dockerRegistryPort=5000
+
+```
+
+##### 二：打镜像并推送
+
+```shell
+docker pull hello-world
+docker tag hello-world:latest localhost:5050/hello-world:latest
+docker push localhost:5050/hello-world:latest
+```
+
+
+
+
 
 
