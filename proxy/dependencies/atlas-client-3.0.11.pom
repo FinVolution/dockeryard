@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ppdai.atlas</groupId>
+    <artifactId>atlas-client</artifactId>
+    <packaging>jar</packaging>
+    <name>atlas-client</name>
+    <version>3.0.11</version>
+    <properties>
+        <java.version>1.7</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <swagger-core-version>1.5.15</swagger-core-version>
+        <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
+        <spring-cloud-version>Camden.SR7</spring-cloud-version>
+    </properties>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>ppdai-Releases</id>
+            <name>Internal Releases</name>
+            <url>http://maven.repo.ppdai.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ppdai-Snapshots</id>
+            <name>Internal Snapshots</name>
+            <url>http://maven.repo.ppdai.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>${spring-cloud-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-joda</artifactId>
+            </dependency>
+            <!-- Bean Validation API support -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

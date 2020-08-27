@@ -37,11 +37,16 @@
         <junit.version>4.12</junit.version>
         <spring-test.version>5.0.1.RELEASE</spring-test.version>
         <jjwt.version>0.9.0</jjwt.version>
+        <feign-version>1.4.7.RELEASE</feign-version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-		
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-feign</artifactId>
+                <version>${feign-version}</version>
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

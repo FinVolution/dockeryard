@@ -1,6 +1,5 @@
 package com.ppdai.dockeryard.proxy.constant;
 
-import io.swagger.annotations.Api;
 
 public class ProxyConstant {
 

@@ -36,7 +36,7 @@
         <dependency>
             <groupId>com.ppdai.atlas</groupId>
             <artifactId>atlas-client</artifactId>
-            <version>1.0.0</version>
+            <version>2.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -72,7 +72,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
-            <version>1.4.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -106,8 +105,14 @@
                     <artifactId>atlas-client</artifactId>
                     <version>1.0.0</version>
                     <packaging>jar</packaging>
-                    <file>${basedir}/dependencies/atlas-client-1.0.0.jar</file>
-                    <pomFile>${basedir}/dependencies/atlas-client-1.0.0.pom</pomFile>
+                    <file>${basedir}/dependencies/atlas-client-2.2.jar</file>
+                    <pomFile>${basedir}/dependencies/atlas-client-2.2.pom</pomFile>
+                    <groupId>com.ppdai.pauth</groupId>
+                    <artifactId>pauth-spring-support</artifactId>
+                    <version>1.2.8</version>
+                    <packaging>jar</packaging>
+                    <file>${basedir}/dependencies/pauth-spring-support-1.2.8.jar</file>
+                    <pomFile>${basedir}/dependencies/pauth-spring-support-1.2.8.pom</pomFile>
                 </configuration>
                 <executions>
                     <execution>

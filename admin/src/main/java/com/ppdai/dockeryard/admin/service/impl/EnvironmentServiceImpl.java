@@ -1,5 +1,6 @@
 package com.ppdai.dockeryard.admin.service.impl;
 
+import com.ppdai.atlas.model.EnvDto;
 import com.ppdai.dockeryard.admin.service.EnvironmentService;
 import com.ppdai.dockeryard.admin.service.ImageExtendService;
 import com.ppdai.dockeryard.core.dto.ImageExtendDto;
@@ -86,5 +87,30 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         environmentMapper.insert(environment);
     }
 
+    @Override
+    public void SyncAllEnv(List<EnvDto> remoteEnvList) {
+        for (EnvDto envDto : remoteEnvList) {
+            Long id = envDto.getId();
+            EnvironmentEntity environment = environmentMapper.getById(id);
+            try {
+                if(environment == null){
+                    environment = new EnvironmentEntity();
+                    environment.setId(envDto.getId());
+                    environment.setName(envDto.getName());
+                    environment.setInsertBy(StringUtils.hasLength(envDto.getInsertBy()) ? envDto.getInsertBy() : "by synchronization");
+                    environment.setUpdateBy(StringUtils.hasLength(envDto.getUpdateBy()) ? envDto.getUpdateBy() : "by synchronization");
+                    environment.setIsActive(envDto.isActive());
+                    environmentMapper.insert(environment);
+                } else {
+                    environment.setName(envDto.getName());
+                    environment.setUpdateBy(StringUtils.hasLength(envDto.getUpdateBy()) ? envDto.getUpdateBy() : "by synchronization");
+                    environment.setIsActive(envDto.isActive());
+                    environmentMapper.update(environment);
+                }
+            }catch (Exception e){
+                continue;
+            }
+        }
+    }
 
 }

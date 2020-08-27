@@ -1,5 +1,8 @@
 package com.ppdai.dockeryard.admin.controller;
 
+import com.ppdai.atlas.api.EnvControllerApiClient;
+import com.ppdai.atlas.model.EnvDto;
+import com.ppdai.atlas.model.ResponseListEnvDto;
 import com.ppdai.dockeryard.admin.service.EnvironmentService;
 import com.ppdai.dockeryard.core.po.EnvironmentEntity;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +21,9 @@ public class EnvironmentController {
 
     @Autowired
     private EnvironmentService envService;
+
+    @Autowired
+    private EnvControllerApiClient envControllerApiClient;
 
     @ApiOperation(value = "获取所有Environment列表")
     @RequestMapping(value = "/env/all", method = RequestMethod.GET)
@@ -75,5 +81,15 @@ public class EnvironmentController {
     public ResponseEntity<String> deleteEnvironment(@PathVariable Long id) {
         envService.delete(id);
         return new ResponseEntity<>("delete success", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "从atlas同步Environment")
+    @RequestMapping(value = "/env/sync", method = RequestMethod.GET)
+    public ResponseEntity<String> SyncEnvironment() {
+        ResponseEntity<ResponseListEnvDto> remoteResponse = envControllerApiClient.getAllEnvsUsingGET();
+        ResponseListEnvDto remoteList = remoteResponse.getBody();
+        List<EnvDto> remoteEnvList = remoteList.getDetail();
+        envService.SyncAllEnv(remoteEnvList);
+        return new ResponseEntity<>("sync all env success", HttpStatus.OK);
     }
 }

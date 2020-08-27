@@ -1,5 +1,6 @@
 package com.ppdai.dockeryard.admin.service;
 
+import com.ppdai.atlas.model.OrgDto;
 import com.ppdai.dockeryard.core.po.OrganizationEntity;
 
 import java.util.List;
@@ -42,4 +43,10 @@ public interface OrganizationService {
      */
     void insert(OrganizationEntity org);
 
+    /**
+     * 从远端同步数据到本地数据库
+     *
+     * @param remoteOrgList
+     */
+    void syncOrganizations(List<OrgDto> remoteOrgList);
 }

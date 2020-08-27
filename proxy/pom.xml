@@ -54,13 +54,17 @@
         <dependency>
             <groupId>com.ppdai.auth</groupId>
             <artifactId>pauth-java-client</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.8</version>
         </dependency>
         <!--jwt-->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.slf4j</groupId>-->
@@ -79,6 +83,34 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <groupId>com.ppdai.atlas</groupId>
+                    <artifactId>atlas-client</artifactId>
+                    <version>1.0.0</version>
+                    <packaging>jar</packaging>
+                    <file>${basedir}/dependencies/atlas-client-3.0.11.jar</file>
+                    <pomFile>${basedir}/dependencies/atlas-client-3.0.11.pom</pomFile>
+                    <groupId>com.ppdai.pauth</groupId>
+                    <artifactId>pauth-java-client</artifactId>
+                    <version>1.2.8</version>
+                    <packaging>jar</packaging>
+                    <file>${basedir}/dependencies/pauth-java-client-1.2.8.jar</file>
+                    <pomFile>${basedir}/dependencies/pauth-java-client-1.2.8.pom</pomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-jar-lib</id>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>
