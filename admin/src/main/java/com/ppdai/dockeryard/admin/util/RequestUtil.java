@@ -1,7 +1,7 @@
 package com.ppdai.dockeryard.admin.util;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
+//import com.auth0.jwt.JWT;
+//import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ppdai.dockeryard.core.po.UserEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,16 +17,16 @@ public class RequestUtil {
         String jwtToken = request.getHeader(tokenKey);
         if(StringUtils.hasLength(jwtToken)){
             try {
-                DecodedJWT jwt = JWT.decode(jwtToken);
-                String userName = jwt.getSubject();
-                String userMail = jwt.getClaim("user_mail").asString();
-                String userRole = jwt.getClaim("user_role").asString();
-                String userOrg = jwt.getClaim("user_org").asString();
+//                DecodedJWT jwt = JWT.decode(jwtToken);
+//                String userName = jwt.getSubject();
+//                String userMail = jwt.getClaim("user_mail").asString();
+//                String userRole = jwt.getClaim("user_role").asString();
+//                String userOrg = jwt.getClaim("user_org").asString();
                 userEntity = new UserEntity();
-                userEntity.setName(userName);
-                userEntity.setEmail(userMail);
-                userEntity.setOrgName(userOrg);
-                userEntity.setRole(userRole);
+//                userEntity.setName(userName);
+//                userEntity.setEmail(userMail);
+//                userEntity.setOrgName(userOrg);
+//                userEntity.setRole(userRole);
             }catch (Exception e){
 
             }
@@ -42,13 +42,13 @@ public class RequestUtil {
     public static String getJWTTokenFromHeader(String tokenKey){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         String jwtToken = request.getHeader(tokenKey);
-        if(StringUtils.hasLength(jwtToken)){
-            DecodedJWT jwt = JWT.decode(jwtToken);
-            String userName = jwt.getSubject();
-            if(StringUtils.hasLength(userName)){
-                return jwtToken;
-            }
-        }
+//        if(StringUtils.hasLength(jwtToken)){
+//            DecodedJWT jwt = JWT.decode(jwtToken);
+//            String userName = jwt.getSubject();
+//            if(StringUtils.hasLength(userName)){
+//                return jwtToken;
+//            }
+//        }
         return null;
     }
 

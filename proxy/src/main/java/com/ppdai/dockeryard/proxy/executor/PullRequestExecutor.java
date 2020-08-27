@@ -6,7 +6,7 @@ import com.ppdai.dockeryard.proxy.util.ApplicationContextHelper;
 import com.ppdai.dockeryard.proxy.util.CommonUtil;
 import com.ppdai.dockeryard.proxy.util.DockerRegistryV2RequestType;
 import com.ppdai.dockeryard.proxy.util.DockerRegistryV2Util;
-import com.ppdai.pauth.client.api.OAuth2EndpointApi;
+//import com.ppdai.pauth.client.api.OAuth2EndpointApi;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -21,12 +21,12 @@ public class PullRequestExecutor implements RequestExecutor {
 
     private RequestExecutor next = new PushRequestExecutor();
 
-    private OAuth2EndpointApi authApi;
+//    private OAuth2EndpointApi authApi;
 
     PullRequestExecutor() {
         LittleShootProxyConfig littleShootProxyConfig = ApplicationContextHelper.getApplicationContext().getBean("littleShootProxyConfig", LittleShootProxyConfig.class);
-        authApi = new OAuth2EndpointApi();
-        authApi.getApiClient().setBasePath(littleShootProxyConfig.getAuthServerHost());
+//        authApi = new OAuth2EndpointApi();
+//        authApi.getApiClient().setBasePath(littleShootProxyConfig.getAuthServerHost());
     }
 
     @Override
