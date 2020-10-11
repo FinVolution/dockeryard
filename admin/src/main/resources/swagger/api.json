@@ -1,0 +1,2026 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "dockeryard",
+    "x-serviceName": "dockeryard"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "open-image-controller",
+      "description": "Open Image Controller"
+    },
+    {
+      "name": "environment-controller",
+      "description": "Environment Controller"
+    },
+    {
+      "name": "event-log-controller",
+      "description": "Event Log Controller"
+    },
+    {
+      "name": "image-controller",
+      "description": "Image Controller"
+    },
+    {
+      "name": "repository-controller",
+      "description": "Repository Controller"
+    },
+    {
+      "name": "user-controller",
+      "description": "User Controller"
+    },
+    {
+      "name": "health-controller",
+      "description": "Health Controller"
+    },
+    {
+      "name": "organization-controller",
+      "description": "Organization Controller"
+    }
+  ],
+  "paths": {
+    "/api/env": {
+      "get": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "根据url获取Environment",
+        "operationId": "getEnvironmentByUrlUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "url",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EnvironmentEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "添加Environment",
+        "operationId": "addEnvironmentUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "env",
+            "description": "env",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EnvironmentEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "更新Environment",
+        "operationId": "updateEnvironmentUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "env",
+            "description": "env",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EnvironmentEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/env/all": {
+      "get": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "获取所有Environment列表",
+        "operationId": "getAllEnvironmentUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EnvironmentEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/env/allNames": {
+      "get": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "获取所有Environment列表的名称",
+        "operationId": "getAllEnvironmentNamesUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/env/sync": {
+      "get": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "从atlas同步Environment",
+        "operationId": "SyncEnvironmentUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/env/{id}": {
+      "get": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "根据id获取Environment",
+        "operationId": "getEnvironmentUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EnvironmentEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "environment-controller"
+        ],
+        "summary": "删除Environment",
+        "operationId": "deleteEnvironmentUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/image": {
+      "post": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "保存image",
+        "operationId": "addImageUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "image",
+            "description": "image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImageEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "更新image",
+        "operationId": "updateImageUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "image",
+            "description": "image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImageEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/image/all": {
+      "get": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "获取所有image列表",
+        "operationId": "getAllImagesUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ImageEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/image/app": {
+      "get": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "根据appName获取image列表",
+        "operationId": "getImageByAppNameUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "appName",
+            "in": "query",
+            "description": "appName",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ImageEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/image/{id}": {
+      "get": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "根据id获取image",
+        "operationId": "getImageUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ImageEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "删除image",
+        "operationId": "deleteImageUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/images": {
+      "get": {
+        "tags": [
+          "image-controller"
+        ],
+        "summary": "根据获取image列表",
+        "operationId": "getImagesByParamUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "query",
+            "description": "repoId",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "repoName",
+            "in": "query",
+            "description": "repoName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orgId",
+            "in": "query",
+            "description": "orgId",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "orgName",
+            "in": "query",
+            "description": "orgName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "appName",
+            "in": "query",
+            "description": "appName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "tag",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageVO«ImageEntity»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/logs": {
+      "get": {
+        "tags": [
+          "event-log-controller"
+        ],
+        "summary": "根据条件获取EventLog列表",
+        "operationId": "getEventLogsByParamUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "eventName",
+            "in": "query",
+            "description": "eventName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "eventAddition",
+            "in": "query",
+            "description": "eventAddition",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "optionType",
+            "in": "query",
+            "description": "optionType",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "operator",
+            "in": "query",
+            "description": "operator",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "operateTime",
+            "in": "query",
+            "description": "operateTime",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageVO«EventLogEntity»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/org": {
+      "post": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "添加Organization",
+        "operationId": "addOrganizationUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "organization",
+            "description": "organization",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrganizationEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "更新Organization",
+        "operationId": "updateOrganizationUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "organization",
+            "description": "organization",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrganizationEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/org/all": {
+      "get": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "获取所有Organization列表",
+        "operationId": "getAllOrganizationsUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrganizationEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/org/{id}": {
+      "get": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "根据id获取Organization",
+        "operationId": "getOrganizationUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrganizationEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "删除Organization",
+        "operationId": "deleteOrganizationUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/orgs/sync": {
+      "get": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "从atlas同步Organization",
+        "operationId": "syncOrganizationsUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/repo": {
+      "post": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "添加Repository",
+        "operationId": "addRepositoryUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "repository",
+            "description": "repository",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RepositoryEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "更新Repository",
+        "operationId": "updateRepositoryUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "repository",
+            "description": "repository",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RepositoryEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/repo/all": {
+      "get": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "获取所有Repository列表",
+        "operationId": "getAllRepositoriesUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RepositoryEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/repo/{id}": {
+      "get": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "根据id获取Repository",
+        "operationId": "getRepositoryUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RepositoryEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "删除Repository",
+        "operationId": "deleteRepositoryUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/repos": {
+      "get": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "根据参数获取Repository列表",
+        "operationId": "getRepositoriesByParamUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "query",
+            "description": "orgId",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "orgName",
+            "in": "query",
+            "description": "orgName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageVO«RepositoryEntity»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/repos/condition": {
+      "get": {
+        "tags": [
+          "repository-controller"
+        ],
+        "summary": "根据orgId或者orgName获取Repository列表",
+        "operationId": "getRepositoriesByOrdIdUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "query",
+            "description": "orgId",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "orgName",
+            "in": "query",
+            "description": "orgName",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RepositoryEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "添加Use",
+        "operationId": "addUserUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userEntity",
+            "description": "userEntity",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "更新Use",
+        "operationId": "updateUserUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userEntity",
+            "description": "userEntity",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/all": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "getAllIUsers",
+        "operationId": "getAllIUsersUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "根据id获取Use",
+        "operationId": "getUserUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "删除Use",
+        "operationId": "deleteUserUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "根据参数获取Use列表",
+        "operationId": "getUsersByByParamUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "realName",
+            "in": "query",
+            "description": "realName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orgCode",
+            "in": "query",
+            "description": "orgCode",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageVO«UserEntity»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/hs": {
+      "get": {
+        "tags": [
+          "health-controller"
+        ],
+        "summary": "checkHealth",
+        "operationId": "checkHealthUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/openapi/image/retag": {
+      "put": {
+        "tags": [
+          "open-image-controller"
+        ],
+        "summary": "给存在的镜像打新tag，实际上会生成一条新的镜像记录：镜像相同，名字不同而已。",
+        "description": "repoName+existingTag 唯一确定一个已经存在的镜像；重新打成repoName+expectedTag",
+        "operationId": "tagImageUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "query",
+            "description": "repoName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "existingTag",
+            "in": "query",
+            "description": "existingTag",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "expectedTag",
+            "in": "query",
+            "description": "expectedTag",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ImageEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "EnvironmentEntity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insertBy": {
+          "type": "string"
+        },
+        "insertTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "updateBy": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "EventLogEntity": {
+      "type": "object",
+      "properties": {
+        "eventAddition": {
+          "type": "string"
+        },
+        "eventName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "operateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "optionType": {
+          "type": "string"
+        }
+      }
+    },
+    "ImageEntity": {
+      "type": "object",
+      "properties": {
+        "appName": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insertBy": {
+          "type": "string"
+        },
+        "insertTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "repoId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "updateBy": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "OrganizationEntity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insertBy": {
+          "type": "string"
+        },
+        "insertTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "shortCode": {
+          "type": "string"
+        },
+        "updateBy": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "PageVO«EventLogEntity»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventLogEntity"
+          }
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PageVO«ImageEntity»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageEntity"
+          }
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PageVO«RepositoryEntity»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepositoryEntity"
+          }
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PageVO«UserEntity»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserEntity"
+          }
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "RepositoryEntity": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "downloadCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insertBy": {
+          "type": "string"
+        },
+        "insertTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "starCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updateBy": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "UserEntity": {
+      "type": "object",
+      "properties": {
+        "department": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "insertBy": {
+          "type": "string"
+        },
+        "insertTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "realName": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "updateBy": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "workNumber": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

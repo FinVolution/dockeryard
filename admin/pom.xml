@@ -61,6 +61,26 @@
             <version>3.11.0</version>
         </dependency>
         <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>logging-interceptor</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.gsonfire</groupId>
+            <artifactId>gson-fire</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -84,6 +104,34 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/swagger/api.json</inputSpec>
+                            <language>java</language>
+                            <modelPackage>com.ppdai.dockeryard.client.model</modelPackage>
+                            <apiPackage>com.ppdai.dockeryard.client.api</apiPackage>
+                            <invokerPackage>com.ppdai.dockeryard.client.invoker</invokerPackage>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <groupId>com.ppdai.dockeryard</groupId>
+                            <artifactId>dockeryard-client</artifactId>
+                            <artifactVersion>1.0.2</artifactVersion>
+                            <configOptions>
+                                <sourceFolder>src/main/java</sourceFolder>
+                                <dateLibrary>joda</dateLibrary>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
