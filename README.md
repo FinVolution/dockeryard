@@ -51,7 +51,12 @@ npm run build
 修改src/main/resources/application.properties中的数据库配置（spring.datasource.url, spring.datasource.username, spring.datasource.password）为正确值
 执行如下命令打包
 ```xml
-mvn clean package -DskipTests=true
+mvn clean install -DskipTests=true
+```
+生成docker client
+```xml
+cd target/generated-sources/swagger/
+mvn clean install -DskipTests=true
 ```
 运行命令启动服务
 ```xml
