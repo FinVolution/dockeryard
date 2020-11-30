@@ -22,7 +22,8 @@ public class AuthorizationRequestExecutor implements RequestExecutor {
         DockerRegistryV2RequestType requestType = DockerRegistryV2Util.getRequestType(httpRequest);
         if (DockerRegistryV2RequestType.API_VERSION_CHECK.equals(requestType)) {
             String auth = headers.get("Authorization");
-            boolean canIgnoreAuthentication = PredicateHolder.getPredicate().test(httpRequest);
+//            boolean canIgnoreAuthentication = PredicateHolder.getPredicate().test(httpRequest);
+            boolean canIgnoreAuthentication = true;
             logger.info("{} AuthorizationRequestExecutor received a request :{} / {}; Authorization is {}", shortUuid, httpRequest.getMethod(), httpRequest.getUri(), auth);
             if (auth == null && !canIgnoreAuthentication) {
                 String errorMsg = "Please login first by command: docker login 'repo_url'.";

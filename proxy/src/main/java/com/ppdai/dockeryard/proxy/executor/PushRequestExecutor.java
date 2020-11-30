@@ -54,18 +54,20 @@ public class PushRequestExecutor implements RequestExecutor {
             logger.info(shortUuid + " PushRequestExecutor received a request : " + httpRequest.getMethod() + " " + httpRequest.getUri() + "; requestType is " + requestType + "; Authorization is " + auth);
             try {
                 //token验证通过后，解析token，从中获取用户的基本信息。
-                DecodedJWT jwt = CommonUtil.validateTokenInRequest(auth);
-                String userName = jwt.getSubject();
-                String userOrgName = jwt.getClaim("user_org").asString();
+//                DecodedJWT jwt = CommonUtil.validateTokenInRequest(auth);
+//                String userName = jwt.getSubject();
+//                String userOrgName = jwt.getClaim("user_org").asString();
+                String userName = "admin";
+                String userOrgName = "test";
                 UltraDao ultraDao = ApplicationContextHelper.getApplicationContext().getBean("ultraDao", UltraDao.class);
                 if (StringUtils.hasLength(userOrgName)) {
-                    OrganizationEntity organizationEntity = ultraDao.getOrganizationByName(userOrgName);
-                    if (organizationEntity == null) {
-                        String errorMsg = String.format("[%s] could not load any organization by the orgName [%s] from the token", shortUuid, userOrgName);
-                        logger.error(errorMsg);
-                        return ProxyUtils.createFullHttpResponse(HttpVersion.HTTP_1_1,
-                                HttpResponseStatus.FORBIDDEN, CommonUtil.formatError("UNAUTHORIZED", errorMsg));
-                    }
+//                    OrganizationEntity organizationEntity = ultraDao.getOrganizationByName(userOrgName);
+//                    if (organizationEntity == null) {
+//                        String errorMsg = String.format("[%s] could not load any organization by the orgName [%s] from the token", shortUuid, userOrgName);
+//                        logger.error(errorMsg);
+//                        return ProxyUtils.createFullHttpResponse(HttpVersion.HTTP_1_1,
+//                                HttpResponseStatus.FORBIDDEN, CommonUtil.formatError("UNAUTHORIZED", errorMsg));
+//                    }
                     //上传_manifests的时候需要判断images是否存在并记录相关审计日志。
                     if (requestType == DockerRegistryV2RequestType.PUSH_MANIFEST) {
                         //判断镜像是否存在，如果存在，返回repository:tag
@@ -75,6 +77,7 @@ public class PushRequestExecutor implements RequestExecutor {
                             return ProxyUtils.createFullHttpResponse(HttpVersion.HTTP_1_1,
                                     HttpResponseStatus.FORBIDDEN, CommonUtil.formatError("UNAUTHORIZED", errorMsg));
                         }
+                        OrganizationEntity organizationEntity = new OrganizationEntity();
                         //保存相关记录,镜像相关的信息，通过uri从atlas获取
                         ultraDao.saveRecordForPushImage(false, uri, userName, organizationEntity);
                         logger.info("{} PushRequestExecutor tag in the Metric", shortUuid);
