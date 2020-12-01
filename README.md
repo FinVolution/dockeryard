@@ -129,17 +129,17 @@ vim ~/.docker/daemon.json
 proxyPort=5050
 
 #docker registry
-dockerRegistryHost=http://${ip}
+dockerRegistryHost=localhost
 dockerRegistryPort=5000
-
+responseDomainName=localhost:5000
 ```
 
 ##### 二：打镜像并推送
-
+###### ${ip}为proxy服务的具体ip地址
 ```shell
 docker pull hello-world
-docker tag hello-world:latest localhost:5050/hello-world:latest
-docker push localhost:5050/hello-world:latest
+docker tag hello-world:latest ${ip}:5050/hello-world:latest
+docker push ${ip}:5050/hello-world:latest
 ```
 
 
